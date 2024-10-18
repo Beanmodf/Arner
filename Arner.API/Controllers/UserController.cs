@@ -17,8 +17,9 @@ namespace Arner.Web.API
         }
 
         [HttpPost]
-        [ProducesResponseType(404)]
-        [ProducesResponseType(201)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
         public async Task<IActionResult> AddUser(User user)
         {
@@ -30,7 +31,7 @@ namespace Arner.Web.API
             try
             {
                 var addedUser = await _userService.AddUser(user);
-                return StatusCode(StatusCodes.Status201Created, user);
+                return CreatedAtAction(nameof(GetUserById),new {id = addedUser.ID}, addedUser);
             }
             catch (Exception ex)
             {
