@@ -25,6 +25,16 @@ namespace Arner.Service
             return await _userRepo.Add(user);
         }
 
+        public async Task<User?> GetUserByName(string name)
+        {
+            return await _userRepo.GetUserByName(name);
+        }
+
+        public async Task<User?> GetUserById(int id) 
+        {
+            return await _userRepo.GetUserByID(id);
+        }
+
     }
 
 }
