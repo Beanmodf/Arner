@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Arner.DataAccess.Models;
+using Arner.Service.IRepository;
+using Arner.Service.IService;
 
 namespace Arner.Service
 {
-    internal class UserService
+    public class UserService : IUserService
     {
+        private readonly IUserRepository _userRepo;
+
+        public UserService(IUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
+        public async Task<User?> AddUser(User user)
+        {
+            var findUser = await _userRepo.GetUserByName(user.Username);
+
+            if (findUser != null)
+            {
+                return null;
+            }
+
+            return await _userRepo.Add(user);
+        }
+
     }
+
 }
